@@ -5,8 +5,9 @@ import java.io.IOException;
 
 public class Reversy {
     public static void main(String[] args) throws IOException {
-        GameWindow.openGameWindow();
         Field field = new Field();
+        int[][] matrix = field.getField();
+        GameWindow.openGameWindow();
 
         /**
          * Переменная, показывающая, чей сейчас ход.
