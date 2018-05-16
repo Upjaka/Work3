@@ -35,6 +35,20 @@ public class Field {
     }
 
     /**
+     * Метод, проверяющий, является ли поле заполненным.
+     * Возвращает true, если поле не заполненно,
+     * возвращает false, если поле заполненно.
+     */
+    public boolean IsFull() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (this.field[i][j] == 0) return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Геттер конфигурации игрового поля.
      */
     public int[][] getField() {
