@@ -20,7 +20,7 @@ public class GameWindow extends JFrame {
 
     public static void openGameWindow() throws IOException {
         BufferedImage bufferedImage = ImageIO.read(new File("src\\main\\resources\\game_dask.png"));
-        field = bufferedImage.getScaledInstance(600, 600, 1);
+        field = bufferedImage.getScaledInstance(560, 560, 1);
         BufferedImage bufferedImage1 = ImageIO.read(new File("src\\main\\resources\\whiteChip.png"));
         whiteChip = bufferedImage1.getScaledInstance(62, 62, 1);
         BufferedImage bufferedImage2 = ImageIO.read(new File("src\\main\\resources\\blackChip.png"));
@@ -31,26 +31,22 @@ public class GameWindow extends JFrame {
         gameWindow.setSize(1024, 720);
         gameWindow.setResizable(false);
         gameField = new GameField();
-        gameWindow.add(gameField);
-        gameWindow.setVisible(true);
 
-        MouseAdapter mouseAdapter = new MouseAdapter() {
+        gameField.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                int x = e.getX();
-                int y = e.getY();
+                if (Reversy.turn.canDoTurn(e.getX(), e.getY())) {
+                    Reversy.turn.nextTurn(e.getX(), e.getY());
+                }
             }
-        };
+        });
 
-        gameField.addMouseListener(mouseAdapter);
+        gameWindow.add(gameField);
+        gameWindow.setVisible(true);
     }
 
     private static void paintGameField(Graphics g) {
-        g.drawImage(field, 212, 40, null);
-        g.drawImage(blackChip, 451, 279, null);
-        g.drawImage(blackChip, 512, 340, null);
-        g.drawImage(whiteChip, 451, 340, null);
-        g.drawImage(whiteChip, 512, 279, null);
+        g.drawImage(field, 242, 60, null);
     }
 
     private static class GameField extends JPanel {
@@ -60,10 +56,6 @@ public class GameWindow extends JFrame {
             super.paintComponent(g);
             paintGameField(g);
         }
-
-    }
-
-    public static void updateGameWindow(int[][] field, Turn turn) {
 
     }
 }
