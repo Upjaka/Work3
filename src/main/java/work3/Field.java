@@ -20,10 +20,10 @@ public class Field {
                 matrix[i][j] = -1;
             }
         }
-        matrix[4][5] = 0;
-        matrix[5][4] = 0;
+        matrix[3][4] = 0;
+        matrix[4][3] = 0;
+        matrix[3][3] = 1;
         matrix[4][4] = 1;
-        matrix[5][5] = 1;
         this.field = matrix;
     }
 
@@ -61,14 +61,49 @@ public class Field {
         if (i < 7){
             i++;
             while (i < 8) {
-                if (field[i][j] == -1) break;
-                if (field[i][j] == Reversy.player) {
+                if (field[i][j0] == -1) break;
+                if (field[i][j0] == Reversy.player) {
                     for (int index = i0 + 1; index < i; index++) {
-                        field[index][j] = Reversy.player;
+                        field[index][j0] = Reversy.player;
                     }
                 }
             }
         }
+        if (i > 1){
+            i--;
+            while (i > 0) {
+                if (field[i][j0] == -1) break;
+                if (field[i][j0] == Reversy.player) {
+                    for (int index = i0 - 1; index > i; index--) {
+                        field[index][j0] = Reversy.player;
+                    }
+                }
+            }
+        }
+        if (j < 7){
+            j++;
+            while (j < 8) {
+                if (field[i0][j] == -1) break;
+                if (field[i0][j] == Reversy.player) {
+                    for (int index = j0 + 1; index < j; index++) {
+                        field[i0][index] = Reversy.player;
+                    }
+                }
+            }
+        }
+        if (j < 7){
+            j--;
+            while (j < 8) {
+                if (field[i0][j] == -1) break;
+                if (field[i0][j] == Reversy.player) {
+                    for (int index = j0 - 1; index > j; index--) {
+                        field[i0][index] = Reversy.player;
+                    }
+                }
+            }
+        }
+
+        GameWindow.gameWindow.add(new GameWindow.Chips());
     }
 
     /**

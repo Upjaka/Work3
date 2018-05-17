@@ -18,8 +18,8 @@ public class Turn {
         Определяем, каким строке и столбцу соответсвтует нажатие
         70 - развер одной клетки поля в пикселях
          */
-        int i = (x - x0)/70;
-        int j = (y - y0)/70;
+        int i = (x - x0)/65;
+        int j = (y - y0)/65;
 
         return (matrix[i][j] == 0);
     }
@@ -35,13 +35,14 @@ public class Turn {
         Определяем, каким строке и столбцу соответсвтует нажатие
         70 - развер одной клетки поля в пикселях
          */
-        int i = (x - x0)/70;
-        int j = (y - y0)/70;
+        int i = (x - x0)/65;
+        int j = (y - y0)/65;
 
         Reversy.field.setCellValue(i, j, Reversy.player);
         Reversy.player = (Reversy.player + 1) % 2;
 
         Reversy.field.updateField(i, j);
+
         if (Reversy.field.IsFull()) {
             System.exit(0);
         }
