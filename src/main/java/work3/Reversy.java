@@ -9,7 +9,7 @@ public class Reversy {
      */
     public static Field field = new Field();
     public static Turn turn = new Turn();
-    public static int player = 0;
+    public static int player = -1;
 
     public static void main(String[] args) throws IOException {
         GameWindow.openGameWindow();

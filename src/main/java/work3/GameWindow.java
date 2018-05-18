@@ -12,7 +12,6 @@ import java.io.IOException;
 public class GameWindow extends JFrame {
 
     public static GameWindow gameWindow;
-    private static GameField gameField;
     private static Image field;
     private static Image frame;
     private static Image whiteChip;
@@ -33,7 +32,7 @@ public class GameWindow extends JFrame {
         gameWindow.setLocation(200, 100);
         gameWindow.setSize(1024, 720);
         gameWindow.setResizable(false);
-        gameField = new GameField();
+        GameField gameField = new GameField();
 
         gameField.addMouseListener(new MouseAdapter() {
             @Override
@@ -50,28 +49,12 @@ public class GameWindow extends JFrame {
 
 
 
-    private static class GameField extends JPanel {
-
-        private static void paintGameField(Graphics g) {
-            g.drawImage(frame, 200, 18, null);
-            g.drawImage(field, 262, 80, null);
-
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            paintGameField(g);
-        }
-
-    }
-
-    public static class Chips extends JPanel {
+    public static class GameField extends JPanel {
 
         private static void paintChips(Graphics g) {
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
-                    if (Reversy.field.getField()[i][j] == 0) {
+                    if (Reversy.field.getField()[i][j] == -1) {
                         g.drawImage(blackChip, 262 + 65 * i,
                                 80 + 65 * j, null);
                     }   else {
@@ -84,10 +67,19 @@ public class GameWindow extends JFrame {
             }
         }
 
+        private static void paintGameField(Graphics g) {
+            g.drawImage(frame, 200, 18, null);
+            g.drawImage(field, 262, 80, null);
+
+        }
+
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
+            paintGameField(g);
             paintChips(g);
         }
+
     }
+
 }
