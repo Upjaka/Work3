@@ -26,6 +26,19 @@ class FieldTest {
 
     @Test
     void updateField() {
+        Field field = new Field();
+        field.setCellValue(3, 2, 1);
+        field.setCellValue(2, 2, -1);
+        field.setCellValue(4, 2, -1);
+        field.updateField(4, 2);
+
+        Field expectedField = new Field();
+        expectedField.setCellValue(4, 3, -1);
+        expectedField.setCellValue(3, 2, -1);
+        expectedField.setCellValue(2, 2, -1);
+        expectedField.setCellValue(4, 2, -1);
+
+        assertEquals(field.equals(expectedField), true);
     }
 
     @Test

@@ -21,7 +21,7 @@ public class GameWindow extends JFrame {
 
     public static void openGameWindow() throws IOException {
         BufferedImage bufferedImage = ImageIO.read(new File("src\\main\\resources\\game_dask.png"));
-        field = bufferedImage.getScaledInstance(520, 520, 1);
+        field = bufferedImage.getScaledInstance(521, 521, 1);
         BufferedImage bufferedImage1 = ImageIO.read(new File("src\\main\\resources\\whiteChip.png"));
         whiteChip = bufferedImage1.getScaledInstance(65, 65, 1);
         BufferedImage bufferedImage2 = ImageIO.read(new File("src\\main\\resources\\blackChip.png"));
@@ -38,7 +38,6 @@ public class GameWindow extends JFrame {
         gameField.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                System.out.println(e.getX() + " " + e.getY());
                 if (Reversy.turn.canDoTurn(e.getX(), e.getY())) {
                     Reversy.turn.nextTurn(e.getX(), e.getY());
                 }
@@ -50,19 +49,18 @@ public class GameWindow extends JFrame {
     }
 
 
-
     public static class GameField extends JPanel {
 
         private static void paintChips(Graphics g) {
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
                     if (Reversy.field.getField()[i][j] == -1) {
-                        g.drawImage(blackChip, 262 + 65 * j,
-                                80 + 65 * i, null);
-                    }   else {
+                        g.drawImage(blackChip, 265 + 65 * j,
+                                82 + 65 * i, null);
+                    } else {
                         if (Reversy.field.getField()[i][j] == 1) {
-                            g.drawImage(whiteChip, 262 + 65 * j,
-                                    80 + 65 * i, null);
+                            g.drawImage(whiteChip, 265 + 65 * j,
+                                    82 + 65 * i, null);
                         }
                     }
                 }

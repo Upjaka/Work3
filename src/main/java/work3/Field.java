@@ -60,7 +60,7 @@ public class Field {
         final int i0 = i;
         final int j0 = j;
 
-        if (i < 7){
+        if (i < 7) {
             i++;
             while (i < 8) {
                 if (field[j0][i] == 0) break;
@@ -73,7 +73,7 @@ public class Field {
             }
         }
         i = i0;
-        if (i > 1){
+        if (i > 1) {
             i--;
             while (i > 0) {
                 if (field[j0][i] == 0) break;
@@ -85,7 +85,7 @@ public class Field {
                 i--;
             }
         }
-        if (j < 7){
+        if (j < 7) {
             j++;
             while (j < 8) {
                 if (field[j][i0] == 0) break;
@@ -98,7 +98,7 @@ public class Field {
             }
         }
         j = j0;
-        if (j > 1){
+        if (j > 1) {
             j--;
             while (j > 0) {
                 if (field[j][i0] == 0) break;
@@ -110,6 +110,28 @@ public class Field {
                 j--;
             }
         }
+    }
+
+    /**
+     * Метод, определяющий победителя.
+     */
+    public int identifyWinner() {
+        int black = 0;
+        int white = 0;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (field[i][j] == 1) {
+                    white++;
+                } else {
+                    if (field[i][j] == -1) {
+                        black++;
+                    }
+                }
+            }
+        }
+        if (black > white) return -1;
+        else if (black != white) return 1;
+        else return 0;
     }
 
     /**

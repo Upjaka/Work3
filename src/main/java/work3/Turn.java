@@ -7,6 +7,7 @@ import static work3.GameWindow.gameField;
 import static work3.GameWindow.gameWindow;
 import static work3.Reversy.field;
 import static work3.Reversy.player;
+import static work3.Reversy.turn;
 
 public class Turn {
 
@@ -57,24 +58,37 @@ public class Turn {
 
                 if (field0.equals(field)) {
                     field.setField(fieldBeforeTurn);
-                    System.out.println("false2");
                     return false;
                 } else {
                     field.setField(fieldBeforeTurn);
-                    System.out.println("true");
                     return true;
                 }
             }
         }
     }
 
+    /**
+     * Метод, идентифицирующий патовую ситуацию.
+     */
+    private boolean isPat() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (turn.canDoTurn(265 + 65 * i,
+                        82 + 65 * j)) return false;
+            }
+        }
+        return true;
+    }
 
+    /**
+     * Метод, который реализует ход игрока по заданным координатам нажатия мыши (в клетках игрового поля)
+     */
     public void nextTurn(int x, int y) {
         /*
          * Начальное положени поля
          */
-        final int x0 = 242;
-        final int y0 = 60;
+        final int x0 = 265;
+        final int y0 = 82;
 
 
         /*
@@ -94,9 +108,14 @@ public class Turn {
         gameField.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                System.out.println(e.getX() + " " + e.getY());
-                if (Reversy.turn.canDoTurn(e.getX(), e.getY())) {
-                    Reversy.turn.nextTurn(e.getX(), e.getY());
+                if (turn.canDoTurn(e.getX(), e.getY())) {
+                    turn.nextTurn(e.getX(), e.getY());
+                } else if (turn.isPat()) {
+                    player *= -1;
+                    if (turn.isPat()) {
+                        System.out.println(field.identifyWinner());
+                        System.exit(0);
+                    }
                 }
             }
         });
@@ -107,6 +126,7 @@ public class Turn {
         player *= -1;
 
         if (field.IsFull()) {
+            System.out.println(field.identifyWinner());
             System.exit(0);
         }
     }
