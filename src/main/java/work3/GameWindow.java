@@ -12,7 +12,8 @@ import java.io.IOException;
 public class GameWindow extends JFrame {
 
     public static GameWindow gameWindow;
-    private static Image field;
+    public static GameField gameField;
+    public static Image field;
     private static Image frame;
     private static Image whiteChip;
     private static Image blackChip;
@@ -32,11 +33,12 @@ public class GameWindow extends JFrame {
         gameWindow.setLocation(200, 100);
         gameWindow.setSize(1024, 720);
         gameWindow.setResizable(false);
-        GameField gameField = new GameField();
+        gameField = new GameField();
 
         gameField.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                System.out.println(e.getX() + " " + e.getY());
                 if (Reversy.turn.canDoTurn(e.getX(), e.getY())) {
                     Reversy.turn.nextTurn(e.getX(), e.getY());
                 }
@@ -55,12 +57,12 @@ public class GameWindow extends JFrame {
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
                     if (Reversy.field.getField()[i][j] == -1) {
-                        g.drawImage(blackChip, 262 + 65 * i,
-                                80 + 65 * j, null);
+                        g.drawImage(blackChip, 262 + 65 * j,
+                                80 + 65 * i, null);
                     }   else {
                         if (Reversy.field.getField()[i][j] == 1) {
-                            g.drawImage(whiteChip, 262 + 65 * i,
-                                    80 + 65 * j, null);
+                            g.drawImage(whiteChip, 262 + 65 * j,
+                                    80 + 65 * i, null);
                         }
                     }
                 }

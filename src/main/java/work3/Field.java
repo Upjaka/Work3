@@ -1,5 +1,7 @@
 package work3;
 
+import static work3.Reversy.player;
+
 /**
  * Класс представляющий игровое поле.
  * Хранит конфигурацию поля в двумерном массиве:
@@ -20,10 +22,10 @@ public class Field {
                 matrix[i][j] = 0;
             }
         }
-        matrix[3][4] = -1;
-        matrix[4][3] = -1;
-        matrix[3][3] = 1;
-        matrix[4][4] = 1;
+        matrix[3][4] = 1;
+        matrix[4][3] = 1;
+        matrix[3][3] = -1;
+        matrix[4][4] = -1;
         this.field = matrix;
     }
 
@@ -61,10 +63,10 @@ public class Field {
         if (i < 7){
             i++;
             while (i < 8) {
-                if (field[i][j0] == 0) break;
-                if (field[i][j0] == Reversy.player) {
+                if (field[j0][i] == 0) break;
+                if (field[j0][i] == player) {
                     for (int index = i0 + 1; index < i; index++) {
-                        field[index][j0] = Reversy.player;
+                        field[j0][index] = player;
                     }
                 }
                 i++;
@@ -74,10 +76,10 @@ public class Field {
         if (i > 1){
             i--;
             while (i > 0) {
-                if (field[i][j0] == 0) break;
-                if (field[i][j0] == Reversy.player) {
+                if (field[j0][i] == 0) break;
+                if (field[j0][i] == player) {
                     for (int index = i0 - 1; index > i; index--) {
-                        field[index][j0] = Reversy.player;
+                        field[j0][index] = player;
                     }
                 }
                 i--;
@@ -86,42 +88,28 @@ public class Field {
         if (j < 7){
             j++;
             while (j < 8) {
-                if (field[i0][j] == 0) break;
-                if (field[i0][j] == Reversy.player) {
+                if (field[j][i0] == 0) break;
+                if (field[j][i0] == player) {
                     for (int index = j0 + 1; index < j; index++) {
-                        field[i0][index] = Reversy.player;
+                        field[index][i0] = player;
                     }
                 }
                 j++;
             }
         }
         j = j0;
-        if (j < 1){
+        if (j > 1){
             j--;
-            while (j < 0) {
-                if (field[i0][j] == 0) break;
-                if (field[i0][j] == Reversy.player) {
+            while (j > 0) {
+                if (field[j][i0] == 0) break;
+                if (field[j][i0] == player) {
                     for (int index = j0 - 1; index > j; index--) {
-                        field[i0][index] = Reversy.player;
+                        field[index][i0] = player;
                     }
                 }
                 j--;
             }
         }
-
-        for (int index0 = 0; index0 < 8; index0++) {
-            for (int index1 = 0; index1 < 8; index1++) {
-                if (this.field[index0][index1] == -1) {
-                    System.out.print(this.field[index0][index1] + " ");
-                } else {
-                    System.out.print(" " + this.field[index0][index1] + " ");
-                }
-            }
-            System.out.println();
-        }
-        System.out.println();
-
-        GameWindow.gameWindow.add(new GameWindow.GameField());
     }
 
     /**
@@ -131,21 +119,30 @@ public class Field {
         return field;
     }
 
+    /**
+     * Сеттер конфигурации игрового поля.
+     */
+    public void setField(int[][] field) {
+        this.field = field;
+    }
+
+    /**
+     * Переопределение метода equals для проверки объектов класса на содержимое.
+     */
     @Override
-    public String toString() {
-        String result = "";
-        StringBuilder str = new StringBuilder(result);
-        for (int index0 = 0; index0 < 8; index0++) {
-            for (int index1 = 0; index1 < 8; index1++) {
-                if (this.field[index0][index1] == -1) {
-                    str.append(this.field[index0][index1]).append(" ");
-                } else {
-                    str.append(" ").append(this.field[index0][index1]).append(" ");
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != this.getClass())
+            return false;
+        else if (this == obj)
+            return true;
+        else {
+            Field other = (Field) obj;
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if (this.getField()[i][j] != other.getField()[i][j]) return false;
                 }
             }
-            str.append("\n");
+            return true;
         }
-        result = str.toString();
-        return result;
     }
 }
