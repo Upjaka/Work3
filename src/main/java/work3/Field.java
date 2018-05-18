@@ -22,10 +22,12 @@ public class Field {
                 matrix[i][j] = 0;
             }
         }
+
         matrix[3][4] = 1;
         matrix[4][3] = 1;
         matrix[3][3] = -1;
         matrix[4][4] = -1;
+
         this.field = matrix;
     }
 
@@ -73,9 +75,9 @@ public class Field {
             }
         }
         i = i0;
-        if (i > 1) {
+        if (i > 0) {
             i--;
-            while (i > 0) {
+            while (i > -1) {
                 if (field[j0][i] == 0) break;
                 if (field[j0][i] == player) {
                     for (int index = i0 - 1; index > i; index--) {
@@ -98,9 +100,9 @@ public class Field {
             }
         }
         j = j0;
-        if (j > 1) {
+        if (j > 0) {
             j--;
-            while (j > 0) {
+            while (j > -1) {
                 if (field[j][i0] == 0) break;
                 if (field[j][i0] == player) {
                     for (int index = j0 - 1; index > j; index--) {

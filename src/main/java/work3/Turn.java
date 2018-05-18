@@ -3,11 +3,12 @@ package work3;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import static work3.GameWindow.gameField;
-import static work3.GameWindow.gameWindow;
+import static work3.GameWindow.*;
 import static work3.Reversy.field;
 import static work3.Reversy.player;
 import static work3.Reversy.turn;
+import static work3.Reversy.winner;
+import static work3.Reversy.endGame;
 
 public class Turn {
 
@@ -16,22 +17,13 @@ public class Turn {
      * Возвращает true, если ход возможен, и false, если ход невозможен.
      */
     public boolean canDoTurn(int x, int y) {
-        /*
-         * Начальное положени поля
-         */
-        final int x0 = 242;
-        final int y0 = 60;
 
-        if ((x < x0) || (y < y0) || (x > x0 + GameWindow.field.getWidth(null))
-                || (y > y0 + GameWindow.field.getHeight(null))) return false;
+        if ((x < field_X) || (y < field_Y) || (x > field_X + GameWindow.field.getWidth(null))
+                || (y > field_Y + GameWindow.field.getHeight(null))) return false;
         else {
 
-        /*
-        Определяем, каким строке и столбцу соответсвтует нажатие
-        65 - развер одной клетки поля в пикселях
-         */
-            int i = (x - x0) / 65;
-            int j = (y - y0) / 65;
+            int i = (x - field_X) / chip_Size;
+            int j = (y - field_Y) / chip_Size;
 
             if (field.getField()[j][i] != 0) {
                 return false;
@@ -73,8 +65,10 @@ public class Turn {
     private boolean isPat() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if (turn.canDoTurn(265 + 65 * i,
-                        82 + 65 * j)) return false;
+                if (field.getField()[i][j] == 0) {
+                    if (turn.canDoTurn(field_X + chip_Size * i,
+                            field_Y + chip_Size * j)) return false;
+                }
             }
         }
         return true;
@@ -84,19 +78,9 @@ public class Turn {
      * Метод, который реализует ход игрока по заданным координатам нажатия мыши (в клетках игрового поля)
      */
     public void nextTurn(int x, int y) {
-        /*
-         * Начальное положени поля
-         */
-        final int x0 = 265;
-        final int y0 = 82;
 
-
-        /*
-        Определяем, каким строке и столбцу соответсвтует нажатие
-        65 - развер одной клетки поля в пикселях
-         */
-        int i = (x - x0) / 65;
-        int j = (y - y0) / 65;
+        int i = (x - field_X) / chip_Size;
+        int j = (y - field_Y) / chip_Size;
 
         field.setCellValue(i, j, player);
 
@@ -104,7 +88,6 @@ public class Turn {
 
         gameWindow.remove(gameField);
         gameField = new GameWindow.GameField();
-        gameWindow.add(gameField);
         gameField.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -113,8 +96,7 @@ public class Turn {
                 } else if (turn.isPat()) {
                     player *= -1;
                     if (turn.isPat()) {
-                        System.out.println(field.identifyWinner());
-                        System.exit(0);
+                        endGame();
                     }
                 }
             }
@@ -126,8 +108,7 @@ public class Turn {
         player *= -1;
 
         if (field.IsFull()) {
-            System.out.println(field.identifyWinner());
-            System.exit(0);
+            endGame();
         }
     }
 }
