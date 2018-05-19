@@ -27,16 +27,26 @@ class FieldTest {
     @Test
     void updateField() {
         Field field = new Field();
-        field.setCellValue(3, 2, 1);
-        field.setCellValue(2, 2, -1);
-        field.setCellValue(4, 2, -1);
-        field.updateField(4, 2);
+        field.setCellValue(2, 4, -1);
 
         Field expectedField = new Field();
-        expectedField.setCellValue(4, 3, -1);
-        expectedField.setCellValue(3, 2, -1);
-        expectedField.setCellValue(2, 2, -1);
-        expectedField.setCellValue(4, 2, -1);
+        expectedField.setCellValue(2, 4, -1);
+        expectedField.setCellValue(3, 4, -1);
+
+        field.updateField(2, 4);
+
+        assertEquals(field.equals(expectedField), true);
+
+        field = new Field();
+        expectedField = new Field();
+
+        field.setCellValue(2, 3, -1);
+        field.setCellValue(4, 5, -1);
+        field.updateField(2, 3);
+
+        expectedField.setCellValue(2, 3, -1);
+        expectedField.setCellValue(3, 4, -1);
+        expectedField.setCellValue(4, 5, -1);
 
         assertEquals(field.equals(expectedField), true);
     }

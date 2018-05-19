@@ -34,7 +34,7 @@ public class Field {
     /**
      * Метод, меняющий значние в заданной ячейке.
      */
-    public void setCellValue(int i, int j, int value) {
+    public void setCellValue(int j, int i, int value) {
         this.field[j][i] = value;
     }
 
@@ -53,63 +53,97 @@ public class Field {
     }
 
     /**
+     * Метод, закрашивающий ячейки от (х0, у0) до (х, у).
+     */
+    private void cellPainting(int i0, int j0, int i, int j) {
+        if (i0 + j0 == i + j) {
+            if (i0 < i) {
+                for (int index = i0 + 1; index < i; index++) {
+                    field[j + i - index][index] = player;
+                }
+            } else {
+                for (int index = j0 + 1; index < j; index++) {
+                    field[index][i + j - index] = player;
+                }
+            }
+
+        } else if (i0 - j0 == i - j) {
+            if (i0 < i) {
+                for (int index = i0 + 1; index < i; index++) {
+                    field[j0 + index - i0][index] = player;
+                }
+            } else {
+                for (int index = j0 + 1; index < j; index++) {
+                    field[index][i0 + index - i0] = player;
+                }
+            }
+        } else if (j0 == j) {
+            for (int index = i0 + 1; index < i; index++) {
+                field[j][index] = player;
+            }
+        } else if (i0 == i) {
+            for (int index = j0 + 1; index < j; index++) {
+                field[index][i0] = player;
+            }
+        }
+    }
+
+
+    /**
      * Метод, который переворачивает фишки в "закрытых" рядах.
      */
-    public void updateField(int i, int j) {
-        /*
-        Фиксируем начальную клетку
-         */
+    public void updateField(int j, int i) {
+
         final int i0 = i;
         final int j0 = j;
-
-        if (i < 7) {
+        boolean flagDiagonal = true;
+        boolean flagLine = true;
+        while (i < 7) {
             i++;
-            while (i < 8) {
-                if (field[j0][i] == 0) break;
-                if (field[j0][i] == player) {
-                    for (int index = i0 + 1; index < i; index++) {
-                        field[j0][index] = player;
-                    }
-                }
-                i++;
+            if (field[j0][i] == 0) flagLine = false;
+            else if ((field[j0][i] == player) && flagLine) this.cellPainting(i0, j0, i, j0);
+            if (j0 + i - i0 < 7) {
+                if (field[j0 + i - i0][i] == 0) flagDiagonal = false;
+                else if ((field[j0 + i - i0][i] == player) && flagDiagonal) this.cellPainting(i0, j0, i, j0 + i - i0);
+                if ((!flagDiagonal) && !flagLine) break;
             }
         }
+        flagLine = true;
+        flagDiagonal = true;
         i = i0;
-        if (i > 0) {
+        while (i > 0) {
             i--;
-            while (i > -1) {
-                if (field[j0][i] == 0) break;
-                if (field[j0][i] == player) {
-                    for (int index = i0 - 1; index > i; index--) {
-                        field[j0][index] = player;
-                    }
-                }
-                i--;
+            if (field[j0][i] == 0) flagLine = false;
+            else if ((field[j0][i] == player) && flagLine) this.cellPainting(i, j0, i0, j0);
+            if (j0 + i0 - i < 7) {
+                if (field[j0 + i0 - i][i] == 0) flagDiagonal = false;
+                else if ((field[j0 + i0 - i][i] == player) && flagDiagonal) this.cellPainting(i, j0 + i0 - i, i0, j0);
+                if ((!flagDiagonal) && !flagLine) break;
             }
         }
-        if (j < 7) {
+        flagLine = true;
+        flagDiagonal = true;
+        while (j < 7) {
             j++;
-            while (j < 8) {
-                if (field[j][i0] == 0) break;
-                if (field[j][i0] == player) {
-                    for (int index = j0 + 1; index < j; index++) {
-                        field[index][i0] = player;
-                    }
-                }
-                j++;
+            if (field[j][i0] == 0) flagLine = false;
+            else if ((field[j][i0] == player) && flagLine) this.cellPainting(i0, j0, i0, j);
+            if (i0 + j - j0 < 7) {
+                if (field[j][i0 + j - j0] == 0) flagDiagonal = false;
+                else if ((field[j][i0 + j - j0] == player) && flagDiagonal) this.cellPainting(i0, j0, i0 + j - j0, j);
+                if ((!flagDiagonal) && !flagLine) break;
             }
         }
+        flagLine = true;
+        flagDiagonal = true;
         j = j0;
-        if (j > 0) {
+        while (j > 0) {
             j--;
-            while (j > -1) {
-                if (field[j][i0] == 0) break;
-                if (field[j][i0] == player) {
-                    for (int index = j0 - 1; index > j; index--) {
-                        field[index][i0] = player;
-                    }
-                }
-                j--;
+            if (field[j][i0] == 0) flagLine = false;
+            else if ((field[j][i0] == player) && flagLine) this.cellPainting(i0, j, i0, j0);
+            if (i0 + j0 - j < 7) {
+                if (field[j][i0 + j0 - j] == 0) flagDiagonal = false;
+                else if ((field[j][i0 + j0 - j] == player) && flagDiagonal) this.cellPainting(i0 + j0 - j, j, i0, j0);
+                if ((!flagDiagonal) && !flagLine) break;
             }
         }
     }
@@ -134,6 +168,29 @@ public class Field {
         if (black > white) return -1;
         else if (black != white) return 1;
         else return 0;
+    }
+
+    /**
+     * Метод, подсчитывающий количество очков каждого игрока.
+     */
+    public int[] getPlayersScore() {
+        int black = 0;
+        int white = 0;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (field[i][j] == 1) {
+                    white++;
+                } else {
+                    if (field[i][j] == -1) {
+                        black++;
+                    }
+                }
+            }
+        }
+        int[] result = new int[2];
+        result[0] = black;
+        result[1] = white;
+        return result;
     }
 
     /**

@@ -18,8 +18,8 @@ public class Turn {
      */
     public boolean canDoTurn(int x, int y) {
 
-        if ((x < field_X) || (y < field_Y) || (x > field_X + GameWindow.field.getWidth(null))
-                || (y > field_Y + GameWindow.field.getHeight(null))) return false;
+        if ((x < field_X) || (y < field_Y) || (x > field_X + GameWindow.fieldImage.getWidth(null))
+                || (y > field_Y + GameWindow.fieldImage.getHeight(null))) return false;
         else {
 
             int i = (x - field_X) / chip_Size;
@@ -35,7 +35,7 @@ public class Turn {
                     System.arraycopy(matrix[i1], 0, fieldBeforeTurn[i1], 0, 8);
                 }
 
-                field.setCellValue(i, j, player);
+                field.setCellValue(j, i, player);
 
                 Field field0 = new Field();
                 int[][] matrix0 = new int[8][8];
@@ -46,7 +46,7 @@ public class Turn {
 
                 field0.setField(matrix0);
 
-                field.updateField(i, j);
+                field.updateField(j, i);
 
                 if (field0.equals(field)) {
                     field.setField(fieldBeforeTurn);
@@ -82,9 +82,9 @@ public class Turn {
         int i = (x - field_X) / chip_Size;
         int j = (y - field_Y) / chip_Size;
 
-        field.setCellValue(i, j, player);
+        field.setCellValue(j, i, player);
 
-        field.updateField(i, j);
+        field.updateField(j, i);
 
         gameWindow.remove(gameField);
         gameField = new GameWindow.GameField();
