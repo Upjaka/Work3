@@ -9,22 +9,26 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import static work3.Reversy.winner;
+import static work3.Reversy.*;
+import static work3.Reversy.endGame;
+import static work3.Reversy.turn;
 
 
 public class GameWindow extends JFrame {
 
     public static int field_X = 267;
     public static int field_Y = 85;
+    public static int chip_Size = 64;
     public static int field_Size = 521;
+
     private static int frame_Size = 628;
     private static int window_Width = 1024;
     private static int window_Heigth = 720;
-    public static int chip_Size = 64;
-
 
     public static JFrame gameWindow;
     public static GameField gameField;
+    public static InfoPanel infoPanel;
+
     public static Image fieldImage;
     private static Image frameImage;
     private static Image whiteChipImage;
@@ -32,6 +36,11 @@ public class GameWindow extends JFrame {
     private static Image gameOverImage;
     private static Image whiteWinImage;
     private static Image blackWinImage;
+
+    public GameWindow() {
+        BorderLayout borderLayout = new BorderLayout();
+        super.setLayout(borderLayout);
+    }
 
 
     public static void openGameWindow() throws IOException {
@@ -61,13 +70,22 @@ public class GameWindow extends JFrame {
         gameField.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if (Reversy.turn.canDoTurn(e.getX(), e.getY())) {
-                    Reversy.turn.nextTurn(e.getX(), e.getY());
+                if (turn.canDoTurn(e.getX(), e.getY())) {
+                    turn.nextTurn(e.getX(), e.getY());
+                } else if (turn.isPat()) {
+                    player *= -1;
+                    if (turn.isPat()) {
+                        endGame();
+                    }
                 }
             }
         });
 
-        gameWindow.add(gameField);
+        gameWindow.add(gameField, BorderLayout.CENTER);
+
+        infoPanel = new InfoPanel();
+
+        gameWindow.add(infoPanel, BorderLayout.WEST);
 
         gameWindow.setVisible(true);
     }
@@ -118,7 +136,44 @@ public class GameWindow extends JFrame {
                 g.drawImage(whiteWinImage, 362, 550, null);
             }
         }
-
     }
 
+    public static class InfoPanel extends JPanel {
+
+        private static JLabel blackScore;
+        private static JLabel whiteScore;
+        private static JLabel turnPlayer;
+
+        public InfoPanel() {
+            blackScore = new JLabel("Black - " + field.getPlayerScore(-1));
+            whiteScore = new JLabel("White - " + field.getPlayerScore(1));
+            if (player == -1) {
+                turnPlayer = new JLabel("Turn - Black");
+            } else {
+                turnPlayer = new JLabel("Turn - White");
+            }
+
+            super.add(blackScore);
+            super.add(whiteScore);
+            super.add(turnPlayer);
+        }
+
+        public void updateText() {
+            blackScore = new JLabel("Black - " + field.getPlayerScore(-1));
+            whiteScore = new JLabel("White - " + field.getPlayerScore(1));
+            if (player == -1) {
+                turnPlayer = new JLabel("Turn - Black");
+            } else {
+                turnPlayer = new JLabel("Turn - White");
+            }
+
+            super.add(blackScore);
+            super.add(whiteScore);
+            super.add(turnPlayer);
+        }
+    }
+
+    public static class LogPanel extends JPanel {
+
+    }
 }

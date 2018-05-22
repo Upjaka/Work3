@@ -173,7 +173,7 @@ public class Field {
     /**
      * Метод, подсчитывающий количество очков каждого игрока.
      */
-    public int[] getPlayersScore() {
+    public int getPlayerScore(int player) {
         int black = 0;
         int white = 0;
         for (int i = 0; i < 8; i++) {
@@ -187,10 +187,8 @@ public class Field {
                 }
             }
         }
-        int[] result = new int[2];
-        result[0] = black;
-        result[1] = white;
-        return result;
+        if (player == -1) return black;
+        else return white;
     }
 
     /**

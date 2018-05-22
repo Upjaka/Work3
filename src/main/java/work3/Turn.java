@@ -1,13 +1,13 @@
 package work3;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import javafx.scene.layout.Border;
+
+import java.awt.*;
 
 import static work3.GameWindow.*;
 import static work3.Reversy.field;
 import static work3.Reversy.player;
 import static work3.Reversy.turn;
-import static work3.Reversy.winner;
 import static work3.Reversy.endGame;
 
 public class Turn {
@@ -62,7 +62,7 @@ public class Turn {
     /**
      * Метод, идентифицирующий патовую ситуацию.
      */
-    private boolean isPat() {
+    public boolean isPat() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (field.getField()[i][j] == 0) {
@@ -86,26 +86,11 @@ public class Turn {
 
         field.updateField(j, i);
 
-        gameWindow.remove(gameField);
-        gameField = new GameWindow.GameField();
-        gameField.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if (turn.canDoTurn(e.getX(), e.getY())) {
-                    turn.nextTurn(e.getX(), e.getY());
-                } else if (turn.isPat()) {
-                    player *= -1;
-                    if (turn.isPat()) {
-                        endGame();
-                    }
-                }
-            }
-        });
-
-        gameWindow.add(gameField);
-        gameWindow.setVisible(true);
+        gameField.repaint();
 
         player *= -1;
+
+        infoPanel.updateText();
 
         if (field.IsFull()) {
             endGame();
