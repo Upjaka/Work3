@@ -1,6 +1,4 @@
-package work3;
-
-import static work3.Reversy.player;
+package work3.Model;
 
 /**
  * Класс представляющий игровое поле.
@@ -9,6 +7,7 @@ import static work3.Reversy.player;
  * -1 - в клетке стоит фишка черного цвета.
  */
 public class Field {
+    public int player;
     private int[][] field;
 
     /**
@@ -19,7 +18,7 @@ public class Field {
         int[][] matrix = new int[8][8];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                matrix[i][j] = 0;
+                matrix[i][j] = -1;
             }
         }
 
@@ -34,7 +33,7 @@ public class Field {
     /**
      * Метод, меняющий значние в заданной ячейке.
      */
-    public void setCellValue(int j, int i, int value) {
+    public void setCellValue(int i, int j, int value) {
         this.field[j][i] = value;
     }
 
@@ -53,7 +52,7 @@ public class Field {
     }
 
     /**
-     * Метод, закрашивающий ячейки от (х0, у0) до (х, у).
+     * Метод, закрашивающий ячейки от (i0, j0) до (i, j).
      */
     private void cellPainting(int i0, int j0, int i, int j) {
         if (i0 + j0 == i + j) {
@@ -195,6 +194,22 @@ public class Field {
         else return 0;
     }
 
+
+
+    /**
+     * Геттер конфигурации игрового поля.
+     */
+    public int[][] getField() {
+        return field;
+    }
+
+    /**
+     * Сеттер конфигурации игрового поля.
+     */
+    public void setField(int[][] field) {
+        this.field = field;
+    }
+
     /**
      * Метод, подсчитывающий количество очков каждого игрока.
      */
@@ -214,20 +229,6 @@ public class Field {
         }
         if (player == -1) return black;
         else return white;
-    }
-
-    /**
-     * Геттер конфигурации игрового поля.
-     */
-    public int[][] getField() {
-        return field;
-    }
-
-    /**
-     * Сеттер конфигурации игрового поля.
-     */
-    public void setField(int[][] field) {
-        this.field = field;
     }
 
     /**
