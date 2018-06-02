@@ -3,6 +3,8 @@ package work3;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -14,22 +16,17 @@ import static work3.Reversy.endGame;
 import static work3.Reversy.turn;
 
 
-public class GameWindow extends JFrame {
+public class GameWindow extends JFrame
+    implements ActionListener {
 
     public static int field_X = 267;
     public static int field_Y = 85;
     public static int chip_Size = 64;
-    public static int field_Size = 521;
 
-    private static int frame_Size = 628;
-    private static int window_Width = 1024;
-    private static int window_Heigth = 720;
-
-    public static JFrame gameWindow;
+    public static GameWindow gameWindow;
     public static GameField gameField;
-    public static InfoPanel infoPanel;
 
-    public static Image fieldImage;
+    private static Image fieldImage;
     private static Image frameImage;
     private static Image whiteChipImage;
     private static Image blackChipImage;
@@ -44,6 +41,11 @@ public class GameWindow extends JFrame {
 
 
     public static void openGameWindow() throws IOException {
+        int field_Size = 521;
+        int frame_Size = 628;
+        int window_Width = 1024;
+        int window_Height = 720;
+
         BufferedImage bufferedImage = ImageIO.read(new File("src\\main\\resources\\game_dask.png"));
         fieldImage = bufferedImage.getScaledInstance(field_Size, field_Size, 1);
         BufferedImage bufferedImage1 = ImageIO.read(new File("src\\main\\resources\\whiteChip.png"));
@@ -59,10 +61,10 @@ public class GameWindow extends JFrame {
         BufferedImage bufferedImage6 = ImageIO.read(new File("src\\main\\resources\\blackWin.png"));
         blackWinImage = bufferedImage6.getScaledInstance(300, 80, 1);
 
-        gameWindow = new JFrame("Revercy -- Java");
+        gameWindow = new GameWindow();
         gameWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         gameWindow.setLocation(200, 100);
-        gameWindow.setSize(window_Width, window_Heigth);
+        gameWindow.setSize(window_Width, window_Height);
         gameWindow.setResizable(false);
 
         gameField = new GameField();
@@ -70,12 +72,18 @@ public class GameWindow extends JFrame {
         gameField.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if (turn.canDoTurn(e.getX(), e.getY())) {
-                    turn.nextTurn(e.getX(), e.getY());
-                } else if (turn.isPat()) {
-                    player *= -1;
-                    if (turn.isPat()) {
-                        endGame();
+                if (!(e.getX() < field_X) && !(e.getY() < field_Y) &&
+                        !(e.getX() > field_X + GameWindow.fieldImage.getWidth(null)) &&
+                        !(e.getY() > field_Y + GameWindow.fieldImage.getHeight(null))) {
+                    int i = (e.getX() - field_X) / chip_Size;
+                    int j = (e.getY() - field_Y) / chip_Size;
+                    if (turn.canDoTurn(i, j)) {
+                        turn.nextTurn(i, j);
+                    } else if (turn.isPat()) {
+                        player *= -1;
+                        if (turn.isPat()) {
+                            endGame();
+                        }
                     }
                 }
             }
@@ -83,13 +91,30 @@ public class GameWindow extends JFrame {
 
         gameWindow.add(gameField, BorderLayout.CENTER);
 
-        infoPanel = new InfoPanel();
-
-        gameWindow.add(infoPanel, BorderLayout.WEST);
-
         gameWindow.setVisible(true);
     }
 
+    public void gameOver() {
+        winner = field.identifyWinner();
+        gameWindow.remove(gameField);
+        GameWindow.GameOver gameOver = new GameWindow.GameOver();
+        gameWindow.add(gameOver, BorderLayout.CENTER);
+
+        JButton restart = new JButton("Restart");
+        restart.setActionCommand("Restart game");
+        restart.addActionListener(this);
+
+        gameWindow.add(restart, BorderLayout.SOUTH);
+        gameWindow.setVisible(true);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        try {
+            GameWindow.openGameWindow();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
 
     public static class GameField extends JPanel {
 
@@ -136,44 +161,5 @@ public class GameWindow extends JFrame {
                 g.drawImage(whiteWinImage, 362, 550, null);
             }
         }
-    }
-
-    public static class InfoPanel extends JPanel {
-
-        private static JLabel blackScore;
-        private static JLabel whiteScore;
-        private static JLabel turnPlayer;
-
-        public InfoPanel() {
-            blackScore = new JLabel("Black - " + field.getPlayerScore(-1));
-            whiteScore = new JLabel("White - " + field.getPlayerScore(1));
-            if (player == -1) {
-                turnPlayer = new JLabel("Turn - Black");
-            } else {
-                turnPlayer = new JLabel("Turn - White");
-            }
-
-            super.add(blackScore);
-            super.add(whiteScore);
-            super.add(turnPlayer);
-        }
-
-        public void updateText() {
-            blackScore = new JLabel("Black - " + field.getPlayerScore(-1));
-            whiteScore = new JLabel("White - " + field.getPlayerScore(1));
-            if (player == -1) {
-                turnPlayer = new JLabel("Turn - Black");
-            } else {
-                turnPlayer = new JLabel("Turn - White");
-            }
-
-            super.add(blackScore);
-            super.add(whiteScore);
-            super.add(turnPlayer);
-        }
-    }
-
-    public static class LogPanel extends JPanel {
-
     }
 }

@@ -92,19 +92,26 @@ public class Field {
     /**
      * Метод, который переворачивает фишки в "закрытых" рядах.
      */
-    public void updateField(int j, int i) {
+    public void updateField(int i, int j) {
 
         final int i0 = i;
         final int j0 = j;
         boolean flagDiagonal = true;
         boolean flagLine = true;
+
         while (i < 7) {
             i++;
             if (field[j0][i] == 0) flagLine = false;
-            else if ((field[j0][i] == player) && flagLine) this.cellPainting(i0, j0, i, j0);
-            if (j0 + i - i0 < 7) {
+            else if ((field[j0][i] == player) && flagLine) {
+                this.cellPainting(i0, j0, i, j0);
+                flagLine = false;
+            }
+            if (j0 + i - i0 < 8) {
                 if (field[j0 + i - i0][i] == 0) flagDiagonal = false;
-                else if ((field[j0 + i - i0][i] == player) && flagDiagonal) this.cellPainting(i0, j0, i, j0 + i - i0);
+                else if ((field[j0 + i - i0][i] == player) && flagDiagonal) {
+                    this.cellPainting(i0, j0, i, j0 + i - i0);
+                    flagDiagonal = false;
+                }
                 if ((!flagDiagonal) && !flagLine) break;
             }
         }
@@ -114,10 +121,16 @@ public class Field {
         while (i > 0) {
             i--;
             if (field[j0][i] == 0) flagLine = false;
-            else if ((field[j0][i] == player) && flagLine) this.cellPainting(i, j0, i0, j0);
-            if (j0 + i0 - i < 7) {
-                if (field[j0 + i0 - i][i] == 0) flagDiagonal = false;
-                else if ((field[j0 + i0 - i][i] == player) && flagDiagonal) this.cellPainting(i, j0 + i0 - i, i0, j0);
+            else if ((field[j0][i] == player) && flagLine) {
+                this.cellPainting(i, j0, i0, j0);
+                flagLine = false;
+            }
+            if (j0 - (i0 - i) > 0) {
+                if (field[j0 - (i0 - i)][i] == 0) flagDiagonal = false;
+                else if ((field[j0 - (i0 - i)][i] == player) && flagDiagonal) {
+                    this.cellPainting(i, j0 - (i0 - i), i0, j0);
+                    flagDiagonal = false;
+                }
                 if ((!flagDiagonal) && !flagLine) break;
             }
         }
@@ -126,10 +139,16 @@ public class Field {
         while (j < 7) {
             j++;
             if (field[j][i0] == 0) flagLine = false;
-            else if ((field[j][i0] == player) && flagLine) this.cellPainting(i0, j0, i0, j);
-            if (i0 + j - j0 < 7) {
-                if (field[j][i0 + j - j0] == 0) flagDiagonal = false;
-                else if ((field[j][i0 + j - j0] == player) && flagDiagonal) this.cellPainting(i0, j0, i0 + j - j0, j);
+            else if ((field[j][i0] == player) && flagLine) {
+                this.cellPainting(i0, j0, i0, j);
+                flagLine = false;
+            }
+            if (i0 - (j - j0) > 0) {
+                if (field[j][i0 - (j - j0)] == 0) flagDiagonal = false;
+                else if ((field[j][i0 - (j - j0)] == player) && flagDiagonal) {
+                    this.cellPainting(i0, j0, i0 - (j - j0), j);
+                    flagDiagonal = false;
+                }
                 if ((!flagDiagonal) && !flagLine) break;
             }
         }
@@ -139,10 +158,16 @@ public class Field {
         while (j > 0) {
             j--;
             if (field[j][i0] == 0) flagLine = false;
-            else if ((field[j][i0] == player) && flagLine) this.cellPainting(i0, j, i0, j0);
-            if (i0 + j0 - j < 7) {
+            else if ((field[j][i0] == player) && flagLine) {
+                this.cellPainting(i0, j, i0, j0);
+                flagLine = false;
+            }
+            if (i0 + j0 - j < 8) {
                 if (field[j][i0 + j0 - j] == 0) flagDiagonal = false;
-                else if ((field[j][i0 + j0 - j] == player) && flagDiagonal) this.cellPainting(i0 + j0 - j, j, i0, j0);
+                else if ((field[j][i0 + j0 - j] == player) && flagDiagonal) {
+                    this.cellPainting(i0 + j0 - j, j, i0, j0);
+                    flagDiagonal = false;
+                }
                 if ((!flagDiagonal) && !flagLine) break;
             }
         }
