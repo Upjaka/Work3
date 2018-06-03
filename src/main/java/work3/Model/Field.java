@@ -18,7 +18,7 @@ public class Field {
         int[][] matrix = new int[8][8];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                matrix[i][j] = -1;
+                matrix[i][j] = 0;
             }
         }
 
