@@ -19,10 +19,10 @@ public class Game {
     private final int chip_Size = 64;
     private final int field_Size = 521;
     private final int frame_Size = 628;
-    private final int window_Width = 1024;
-    private final int window_Height = 720;
 
     public Game() throws IOException {
+        final int window_Height = 720;
+        final int window_Width = 1024;
 
         gameWindow = new JFrame("Revercy -- Java");
         gameWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -43,7 +43,7 @@ public class Game {
                     if (controller.canDoTurn(i, j)) {
                         controller.nextTurn(i, j);
                     } else if (controller.isPat()) {
-                        controller.setPlayer(controller.getPlayer() * -1);
+                        controller.changePlayer();
                         if (controller.isPat()) {
                             try {
                                 GameOver gameOver = new GameOver();

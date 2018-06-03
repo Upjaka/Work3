@@ -7,7 +7,7 @@ package work3.Model;
  * -1 - в клетке стоит фишка черного цвета.
  */
 public class Field {
-    public int player;
+    public int player = -1;
     private int[][] field;
 
     /**
@@ -18,7 +18,7 @@ public class Field {
         int[][] matrix = new int[8][8];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                matrix[i][j] = -1;
+                matrix[i][j] = 0;
             }
         }
 
@@ -92,9 +92,9 @@ public class Field {
      * Метод, который переворачивает фишки в "закрытых" рядах.
      */
     public void updateField(int i, int j) {
-
         final int i0 = i;
         final int j0 = j;
+
         boolean flagDiagonal = true;
         boolean flagLine = true;
 
@@ -208,27 +208,6 @@ public class Field {
      */
     public void setField(int[][] field) {
         this.field = field;
-    }
-
-    /**
-     * Метод, подсчитывающий количество очков каждого игрока.
-     */
-    public int getPlayerScore(int player) {
-        int black = 0;
-        int white = 0;
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if (field[i][j] == 1) {
-                    white++;
-                } else {
-                    if (field[i][j] == -1) {
-                        black++;
-                    }
-                }
-            }
-        }
-        if (player == -1) return black;
-        else return white;
     }
 
     /**

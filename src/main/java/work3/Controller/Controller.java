@@ -13,7 +13,6 @@ import static work3.View.Main.game;
 
 public class Controller {
     private static Field field;
-    private static int player = -1;
 
 
     public Controller() {
@@ -22,11 +21,11 @@ public class Controller {
 
     public void nextTurn(int i, int j) {
 
-        field.setCellValue(i, j, player);
+        field.setCellValue(i, j, field.player);
 
         field.updateField(i, j);
 
-        player *= -1;
+        changePlayer();
 
         game.updateScene();
 
@@ -69,7 +68,7 @@ public class Controller {
         } else {
             int[][] matrix = field.getField();
 
-            field.setCellValue(i, j, player);
+            field.setCellValue(i, j, field.player);
 
             Field field0 = new Field();
             int[][] matrix0 = new int[8][8];
@@ -118,11 +117,10 @@ public class Controller {
     }
 
     public int getPlayer() {
-        return player;
+        return field.player;
     }
 
-    public static void setPlayer(int player) {
-        Controller.player = player;
-        field.player = player;
+    public static void changePlayer() {
+        field.player *= -1;
     }
 }
