@@ -6,9 +6,6 @@ import work3.View.GameOver;
 import java.awt.*;
 import java.io.IOException;
 
-import static work3.View.Game.gameField;
-import static work3.View.Game.gameWindow;
-import static work3.View.Game.infoBoard;
 import static work3.View.Main.game;
 
 public class Controller {
@@ -31,11 +28,11 @@ public class Controller {
 
         if (field.IsFull()) {
             try {
-                gameWindow.remove(gameField);
+                game.gameWindow.remove(game.gameField);
                 GameOver gameOver = new GameOver();
-                gameWindow.add(gameOver, BorderLayout.CENTER);
+                game.gameWindow.add(gameOver, BorderLayout.CENTER);
 
-                gameWindow.setVisible(true);
+                game.gameWindow.setVisible(true);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }

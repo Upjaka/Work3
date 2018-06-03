@@ -2,6 +2,8 @@ package work3.View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -10,9 +12,12 @@ import static work3.View.GameField.fieldImage;
 import static work3.View.Main.controller;
 
 public class Game {
-    public static JFrame gameWindow;
-    public static GameField gameField;
-    public static InfoBoard infoBoard;
+    public JFrame gameWindow;
+    public GameField gameField;
+    public InfoBoard infoBoard;
+    public GameOver gameOver;
+
+    public Timer timer;
 
     private final int field_X = 140;
     private final int field_Y = 85;
@@ -43,17 +48,30 @@ public class Game {
                     if (controller.canDoTurn(i, j)) {
                         controller.nextTurn(i, j);
                     } else if (controller.isPat()) {
-                        controller.changePlayer();
-                        if (controller.isPat()) {
-                            try {
-                                GameOver gameOver = new GameOver();
-                                gameWindow.remove(gameField);
-                                gameWindow.add(gameOver, BorderLayout.CENTER);
-
-                                gameWindow.setVisible(true);
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
+                       infoBoard.updateBoards();
+                        timer = new Timer(500, new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                controller.changePlayer();
+                                infoBoard.updateBoards();
+                                timer.stop();
                             }
+                        });
+                        if (controller.isPat()) {
+                            timer = new Timer(500, new ActionListener() {
+                                public void actionPerformed(ActionEvent e) {
+                                    try {
+                                        gameOver = new GameOver();
+                                    } catch (IOException e1) {
+                                        e1.printStackTrace();
+                                    }
+                                    gameWindow.remove(gameField);
+                                    gameWindow.add(gameOver, BorderLayout.CENTER);
+
+                                    gameWindow.setVisible(true);
+                                    timer.stop();
+                                }
+                            });
+                            timer.start();
                         }
                     }
                 }
