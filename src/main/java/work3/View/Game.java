@@ -48,14 +48,8 @@ public class Game {
                     if (controller.canDoTurn(i, j)) {
                         controller.nextTurn(i, j);
                     } else if (controller.isPat()) {
-                       infoBoard.updateBoards();
-                        timer = new Timer(500, new ActionListener() {
-                            public void actionPerformed(ActionEvent e) {
-                                controller.changePlayer();
-                                infoBoard.updateBoards();
-                                timer.stop();
-                            }
-                        });
+                        controller.changePlayer();
+                        infoBoard.updateBoards();
                         if (controller.isPat()) {
                             timer = new Timer(500, new ActionListener() {
                                 public void actionPerformed(ActionEvent e) {

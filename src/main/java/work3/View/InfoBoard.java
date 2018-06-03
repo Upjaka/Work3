@@ -48,8 +48,7 @@ public class InfoBoard extends JPanel
     public void updateBoards() {
         scoreBoard.setText("Black: " + controller.getPlayerScore(-1) + "\n" +
                 "White: " + controller.getPlayerScore(1));
-        if (controller.isPat()) turnBoard.setText("Turn: Pat");
-        else if (controller.getPlayer() == -1) turnBoard.setText("Turn: Black");
+        if (controller.getPlayer() == -1) turnBoard.setText("Turn: Black");
             else turnBoard.setText("Turn: White");
         }
 

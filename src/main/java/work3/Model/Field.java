@@ -124,7 +124,7 @@ public class Field {
                 this.cellPainting(i, j0, i0, j0);
                 flagLine = false;
             }
-            if (j0 - (i0 - i) > 0) {
+            if (j0 - (i0 - i) > -1) {
                 if (field[j0 - (i0 - i)][i] == 0) flagDiagonal = false;
                 else if ((field[j0 - (i0 - i)][i] == player) && flagDiagonal) {
                     this.cellPainting(i, j0 - (i0 - i), i0, j0);
@@ -142,7 +142,7 @@ public class Field {
                 this.cellPainting(i0, j0, i0, j);
                 flagLine = false;
             }
-            if (i0 - (j - j0) > 0) {
+            if (i0 - (j - j0) > -1) {
                 if (field[j][i0 - (j - j0)] == 0) flagDiagonal = false;
                 else if ((field[j][i0 - (j - j0)] == player) && flagDiagonal) {
                     this.cellPainting(i0, j0, i0 - (j - j0), j);
