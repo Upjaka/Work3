@@ -12,7 +12,7 @@ import static work3.View.Game.infoBoard;
 import static work3.View.Main.game;
 
 public class Controller {
-    private static Field field;
+    private Field field;
 
 
     public Controller() {
@@ -32,7 +32,6 @@ public class Controller {
         if (field.IsFull()) {
             try {
                 gameWindow.remove(gameField);
-                gameWindow.remove(infoBoard);
                 GameOver gameOver = new GameOver();
                 gameWindow.add(gameOver, BorderLayout.CENTER);
 
@@ -113,7 +112,7 @@ public class Controller {
         else return white;
     }
 
-    public static Field getField() {
+    public Field getField() {
         return field;
     }
 
@@ -121,7 +120,7 @@ public class Controller {
         return field.player;
     }
 
-    public static void changePlayer() {
+    public void changePlayer() {
         field.player *= -1;
     }
 }

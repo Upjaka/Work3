@@ -48,8 +48,9 @@ public class Game {
                             try {
                                 GameOver gameOver = new GameOver();
                                 gameWindow.remove(gameField);
-                                gameWindow.remove(infoBoard);
                                 gameWindow.add(gameOver, BorderLayout.CENTER);
+
+                                gameWindow.setVisible(true);
                             } catch (IOException e1) {
                                 e1.printStackTrace();
                             }
