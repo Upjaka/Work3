@@ -210,6 +210,10 @@ public class Field {
         this.field = field;
     }
 
+    public void setPlayer(int player) {
+        this.player = player;
+    }
+
     /**
      * Переопределение метода equals для проверки объектов класса на содержимое.
      */

@@ -78,6 +78,7 @@ public class Controller {
             }
 
             field0.setField(matrix0);
+            field0.setPlayer(field.player);
 
             field0.updateField(i, j);
 
