@@ -7,7 +7,7 @@ package work3.Model;
  * -1 - в клетке стоит фишка черного цвета.
  */
 public class Field {
-    public int player = -1;
+    private int player = -1;
     private int[][] field;
 
     /**
@@ -31,9 +31,18 @@ public class Field {
     }
 
     /**
+     * Метод, меняющий конфигурацию игрового поля во время совершения хода.
+     */
+    public void nextTurn(int i, int j) {
+        this.setCellValue(i, j, this.player);
+
+        this.updateField(i, j);
+    }
+
+    /**
      * Метод, меняющий значние в заданной ячейке.
      */
-    public void setCellValue(int i, int j, int value) {
+    private void setCellValue(int i, int j, int value) {
         this.field[j][i] = value;
     }
 
@@ -45,10 +54,118 @@ public class Field {
     public boolean IsFull() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if (this.field[i][j] == 0) return false;
+                if (field[i][j] == 0) return false;
             }
         }
         return true;
+    }
+
+    /**
+     * Метод, идентифицирующий патовую ситуацию.
+     */
+    public boolean isPat() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (field[i][j] == 0) {
+                    if (this.canDoTurn(i, j)) return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Метод, определяющий, можно ли сделать ход по заданным координатам нажатия мыши.
+     * Возвращает true, если ход возможен, и false, если ход невозможен.
+     */
+    public boolean canDoTurn(int i, int j) {
+        final int i0 = i;
+        final int j0 = j;
+
+        boolean flagLineOtherChip = false;
+        boolean flagDiagonalOtherChip = false;
+        boolean flagDiagonal = true;
+        boolean flagLine = true;
+
+        while (i < 7) {
+            i++;
+            if (field[j0][i] == 0) flagLine = false;
+            else if (field[j0][i] == player * -1) flagLineOtherChip = true;
+            else if ((field[j0][i] == player) && flagLine && flagLineOtherChip) {
+                return true;
+            }
+            if (j0 + i - i0 < 8) {
+                if (field[j0 + i - i0][i] == 0) flagDiagonal = false;
+                if (field[j0 + i - i0][i] == player * -1) flagDiagonalOtherChip = true;
+                else if ((field[j0 + i - i0][i] == player) && flagDiagonal && flagDiagonalOtherChip) {
+                    return true;
+                }
+                if ((!flagDiagonal) && !flagLine) break;
+            }
+        }
+        flagDiagonalOtherChip = false;
+        flagLineOtherChip = false;
+        flagLine = true;
+        flagDiagonal = true;
+        i = i0;
+        while (i > 0) {
+            i--;
+            if (field[j0][i] == 0) flagLine = false;
+            if (field[j0][i] == player * -1) flagLineOtherChip = true;
+            else if ((field[j0][i] == player) && flagLine && flagLineOtherChip) {
+                return true;
+            }
+            if (j0 - (i0 - i) > -1) {
+                if (field[j0 - (i0 - i)][i] == 0) flagDiagonal = false;
+                if (field[j0 - (i0 - i)][i] == player * -1) flagDiagonalOtherChip = true;
+                else if ((field[j0 - (i0 - i)][i] == player) && flagDiagonal && flagDiagonalOtherChip) {
+                    return true;
+                }
+                if ((!flagDiagonal) && !flagLine) break;
+            }
+        }
+        flagDiagonalOtherChip = false;
+        flagLineOtherChip = false;
+        flagLine = true;
+        flagDiagonal = true;
+        while (j < 7) {
+            j++;
+            if (field[j][i0] == 0) flagLine = false;
+            if (field[j][i0] == player * -1) flagLineOtherChip = true;
+            else if ((field[j][i0] == player) && flagLine && flagLineOtherChip) {
+                return true;
+            }
+            if (i0 - (j - j0) > -1) {
+                if (field[j][i0 - (j - j0)] == 0) flagDiagonal = false;
+                if (field[j][i0 - (j - j0)] == player * -1) flagDiagonalOtherChip = true;
+                else if ((field[j][i0 - (j - j0)] == player) && flagDiagonal && flagDiagonalOtherChip) {
+                    return true;
+                }
+                if ((!flagDiagonal) && !flagLine) break;
+            }
+        }
+        flagDiagonalOtherChip = false;
+        flagLineOtherChip = false;
+        flagLine = true;
+        flagDiagonal = true;
+        j = j0;
+        while (j > 0) {
+            j--;
+            if (field[j][i0] == 0) flagLine = false;
+            if (field[j][i0] == player * -1) flagLineOtherChip = true;
+            else if ((field[j][i0] == player) && flagLine && flagLineOtherChip) {
+                return true;
+            }
+            if (i0 + j0 - j < 8) {
+                if (field[j][i0 + j0 - j] == 0) flagDiagonal = false;
+                if (field[j][i0 + j0 - j] == player * -1) flagDiagonalOtherChip = true;
+                else if ((field[j][i0 + j0 - j] == player) && flagDiagonal && flagDiagonalOtherChip) {
+                    return true;
+                }
+                if ((!flagDiagonal) && !flagLine) break;
+            }
+        }
+        return false;
     }
 
     /**
@@ -91,7 +208,7 @@ public class Field {
     /**
      * Метод, который переворачивает фишки в "закрытых" рядах.
      */
-    public void updateField(int i, int j) {
+    private void updateField(int i, int j) {
         final int i0 = i;
         final int j0 = j;
 
@@ -195,7 +312,6 @@ public class Field {
     }
 
 
-
     /**
      * Геттер конфигурации игрового поля.
      */
@@ -206,8 +322,12 @@ public class Field {
     /**
      * Сеттер конфигурации игрового поля.
      */
-    public void setField(int[][] field) {
+    private void setField(int[][] field) {
         this.field = field;
+    }
+
+    public int getPlayer() {
+        return player;
     }
 
     public void setPlayer(int player) {

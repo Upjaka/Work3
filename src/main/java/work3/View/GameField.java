@@ -7,20 +7,16 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import static work3.View.Main.controller;
-
 public class GameField extends JPanel {
-    public static int field_X = 140;
-    public static int field_Y = 85;
-    public static int chip_Size = 64;
+    private static int field_X = 140;
+    private static int chip_Size = 64;
 
-    public static Image fieldImage;
+    private static Image fieldImage;
     private static Image frameImage;
     private static Image whiteChipImage;
     private static Image blackChipImage;
 
-    public GameField() throws IOException{
-
+    public GameField() throws IOException {
         final int field_Size = 521;
         final int frame_Size = 628;
 
@@ -37,9 +33,10 @@ public class GameField extends JPanel {
     private static void paintChips(Graphics g) {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if (controller.getField().getField()[j][i] != 0) {
-                    g.drawImage(controller.getField().getField()[j][i] == -1 ? blackChipImage : whiteChipImage,
-                            field_X + chip_Size * i,field_Y + chip_Size * j, null);
+                if (Main.getController().getField().getField()[j][i] != 0) {
+                    int field_Y = 85;
+                    g.drawImage(Main.getController().getField().getField()[j][i] == -1 ? blackChipImage :
+                            whiteChipImage, field_X + chip_Size * i, field_Y + chip_Size * j, null);
                 }
             }
         }

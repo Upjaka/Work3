@@ -8,9 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import static work3.View.Main.controller;
-import static work3.View.Main.game;
-
 public class InfoBoard extends JPanel
         implements ActionListener {
     private static JTextArea scoreBoard;
@@ -46,17 +43,17 @@ public class InfoBoard extends JPanel
     }
 
     public void updateBoards() {
-        scoreBoard.setText("Black: " + controller.getPlayerScore(-1) + "\n" +
-                "White: " + controller.getPlayerScore(1));
-        if (controller.getPlayer() == -1) turnBoard.setText("Turn: Black");
-            else turnBoard.setText("Turn: White");
-        }
+        scoreBoard.setText("Black: " + Main.getController().getPlayerScore(-1) + "\n" +
+                "White: " + Main.getController().getPlayerScore(1));
+        if (Main.getController().getPlayer() == -1) turnBoard.setText("Turn: Black");
+        else turnBoard.setText("Turn: White");
+    }
 
     public void actionPerformed(ActionEvent e) {
         try {
-            game.gameWindow.dispose();
-            controller = new Controller();
-            game = new Game();
+            Main.getGame().gameWindow.dispose();
+            Main.setController(new Controller());
+            Main.setGame(new Game());
         } catch (IOException e1) {
             e1.printStackTrace();
         }

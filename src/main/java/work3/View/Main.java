@@ -6,10 +6,10 @@ import javax.swing.*;
 import java.io.IOException;
 
 public class Main {
-    public static Controller controller;
-    public static Game game;
+    private static Controller controller;
+    private static Game game;
 
-    public Main() throws IOException{
+    private Main() throws IOException {
         controller = new Controller();
         game = new Game();
     }
@@ -24,5 +24,21 @@ public class Main {
                 }
             }
         });
+    }
+
+    public static Controller getController() {
+        return controller;
+    }
+
+    public static Game getGame() {
+        return game;
+    }
+
+    public static void setController(Controller controller) {
+        Main.controller = controller;
+    }
+
+    public static void setGame(Game game) {
+        Main.game = game;
     }
 }

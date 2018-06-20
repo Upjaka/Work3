@@ -2,88 +2,40 @@ package work3.Controller;
 
 import work3.Model.Field;
 import work3.View.GameOver;
+import work3.View.Main;
 
 import java.awt.*;
 import java.io.IOException;
 
-import static work3.View.Main.game;
-
 public class Controller {
     private Field field;
 
-
+    /**
+     * Конструктор класса
+     */
     public Controller() {
         field = new Field();
     }
 
+    /**
+     * Метод, совершающий ход.
+     */
     public void nextTurn(int i, int j) {
-
-        field.setCellValue(i, j, field.player);
-
-        field.updateField(i, j);
+        field.nextTurn(i, j);
 
         changePlayer();
 
-        game.updateScene();
+        Main.getGame().updateScene();
 
         if (field.IsFull()) {
             try {
-                game.gameWindow.remove(game.gameField);
+                Main.getGame().gameWindow.remove(Main.getGame().gameField);
                 GameOver gameOver = new GameOver();
-                game.gameWindow.add(gameOver, BorderLayout.CENTER);
+                Main.getGame().gameWindow.add(gameOver, BorderLayout.CENTER);
 
-                game.gameWindow.setVisible(true);
+                Main.getGame().gameWindow.setVisible(true);
             } catch (IOException e1) {
                 e1.printStackTrace();
-            }
-        }
-    }
-
-    /**
-     * Метод, идентифицирующий патовую ситуацию.
-     */
-    public boolean isPat() {
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if (field.getField()[i][j] == 0) {
-                    if (this.canDoTurn(i, j)) return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Метод, определяющий, можно ли сделать ход по заданным координатам нажатия мыши.
-     * Возвращает true, если ход возможен, и false, если ход невозможен.
-     */
-    public boolean canDoTurn(int i, int j) {
-
-        if (field.getField()[j][i] != 0) {
-            return false;
-        } else {
-            int[][] matrix = field.getField();
-
-            field.setCellValue(i, j, field.player);
-
-            Field field0 = new Field();
-            int[][] matrix0 = new int[8][8];
-
-            for (int i1 = 0; i1 < 8; i1++) {
-                System.arraycopy(matrix[i1], 0, matrix0[i1], 0, 8);
-            }
-
-            field0.setField(matrix0);
-            field0.setPlayer(field.player);
-
-            field0.updateField(i, j);
-
-            if (field0.equals(field)) {
-                field.setCellValue(i, j, 0);
-                return false;
-            } else {
-                field.setCellValue(i, j, 0);
-                return true;
             }
         }
     }
@@ -114,10 +66,10 @@ public class Controller {
     }
 
     public int getPlayer() {
-        return field.player;
+        return field.getPlayer();
     }
 
     public void changePlayer() {
-        field.player *= -1;
+        field.setPlayer(field.getPlayer() * -1);
     }
 }

@@ -8,31 +8,26 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
-import static work3.View.GameField.fieldImage;
-import static work3.View.Main.controller;
-
 public class Game {
     public JFrame gameWindow;
     public GameField gameField;
-    public InfoBoard infoBoard;
-    public GameOver gameOver;
+    private InfoBoard infoBoard;
+    private GameOver gameOver;
 
-    public Timer timer;
-
-    private final int field_X = 140;
-    private final int field_Y = 85;
-    private final int chip_Size = 64;
-    private final int field_Size = 521;
-    private final int frame_Size = 628;
+    private Timer timer;
 
     public Game() throws IOException {
-        final int window_Height = 720;
-        final int window_Width = 1024;
+        final int fieldX = 140;
+        final int fieldY = 85;
+        final int chipSize = 64;
+        final int windowHeight = 720;
+        final int windowWidth = 1024;
+        final int fieldSize = 521;
 
         gameWindow = new JFrame("Revercy -- Java");
         gameWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         gameWindow.setLocation(200, 100);
-        gameWindow.setSize(window_Width, window_Height);
+        gameWindow.setSize(windowWidth, windowHeight);
         gameWindow.setResizable(false);
 
         gameField = new GameField();
@@ -40,17 +35,17 @@ public class Game {
         gameField.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if (!(e.getX() < field_X) && !(e.getY() < field_Y) &&
-                        !(e.getX() > field_X + fieldImage.getWidth(null)) &&
-                        !(e.getY() > field_Y + fieldImage.getHeight(null))) {
-                    int i = (e.getX() - field_X) / chip_Size;
-                    int j = (e.getY() - field_Y) / chip_Size;
-                    if (controller.canDoTurn(i, j)) {
-                        controller.nextTurn(i, j);
-                    } else if (controller.isPat()) {
-                        controller.changePlayer();
+                if (!(e.getX() < fieldX) && !(e.getY() < fieldY) &&
+                        !(e.getX() > fieldX + fieldSize) &&
+                        !(e.getY() > fieldY + fieldSize)) {
+                    int i = (e.getX() - fieldX) / chipSize;
+                    int j = (e.getY() - fieldY) / chipSize;
+                    if (Main.getController().getField().canDoTurn(i, j)) {
+                        Main.getController().nextTurn(i, j);
+                    } else if (Main.getController().getField().isPat()) {
+                        Main.getController().changePlayer();
                         infoBoard.updateBoards();
-                        if (controller.isPat()) {
+                        if (Main.getController().getField().isPat()) {
                             timer = new Timer(500, new ActionListener() {
                                 public void actionPerformed(ActionEvent e) {
                                     try {
