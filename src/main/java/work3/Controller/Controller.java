@@ -4,11 +4,16 @@ import work3.Model.Field;
 import work3.View.GameOver;
 import work3.View.Main;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
 public class Controller {
     private Field field;
+
+    private Timer timer;
 
     /**
      * Конструктор класса
@@ -28,15 +33,21 @@ public class Controller {
         Main.getGame().updateScene();
 
         if (field.IsFull()) {
-            try {
-                Main.getGame().gameWindow.remove(Main.getGame().gameField);
-                GameOver gameOver = new GameOver();
-                Main.getGame().gameWindow.add(gameOver, BorderLayout.CENTER);
+            timer = new Timer(500, new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        Main.getGame().gameWindow.remove(Main.getGame().gameField);
+                        GameOver gameOver = new GameOver();
+                        Main.getGame().gameWindow.add(gameOver, BorderLayout.CENTER);
 
-                Main.getGame().gameWindow.setVisible(true);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+                        Main.getGame().gameWindow.setVisible(true);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                    timer.stop();
+                }
+            });
+            timer.start();
         }
     }
 
