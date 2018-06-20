@@ -5,20 +5,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ControllerTest {
+    private Controller controller = new Controller();
 
     @Test
-    void nextTurn() {
-    }
+    void getPlayerScore1() {
 
-    @Test
-    void isPat() {
-    }
-
-    @Test
-    void canDoTurn() {
-    }
-
-    @Test
-    void getPlayerScore() {
+    assertEquals(controller.getPlayerScore(-1), 2);
     }
 }

@@ -42,7 +42,7 @@ public class Field {
     /**
      * Метод, меняющий значние в заданной ячейке.
      */
-    private void setCellValue(int i, int j, int value) {
+    public void setCellValue(int i, int j, int value) {
         this.field[j][i] = value;
     }
 
@@ -171,7 +171,7 @@ public class Field {
      * Возвращает true, если поле не заполненно,
      * возвращает false, если поле заполненно.
      */
-    public boolean IsFull() {
+    public boolean isFull() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (field[i][j] == 0) return false;

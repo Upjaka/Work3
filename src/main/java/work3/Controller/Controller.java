@@ -32,7 +32,7 @@ public class Controller {
 
         Main.getGame().updateScene();
 
-        if (field.IsFull()) {
+        if (field.isFull()) {
             timer = new Timer(500, new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     try {
