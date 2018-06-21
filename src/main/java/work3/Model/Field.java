@@ -47,7 +47,7 @@ public class Field {
     }
 
     /**
-     * Метод, который переворачивает фишки в "закрытых" рядах.
+     * Вспомогательный метод для nextTurn, который переворачивает фишки в "закрытых" рядах.
      */
     private void updateField(int i, int j) {
         final int i0 = i;
@@ -310,13 +310,6 @@ public class Field {
         return field;
     }
 
-    /**
-     * Сеттер конфигурации игрового поля.
-     */
-    private void setField(int[][] field) {
-        this.field = field;
-    }
-
     public int getPlayer() {
         return player;
     }
@@ -335,7 +328,7 @@ public class Field {
         else if (this == obj)
             return true;
         else {
-            Field other = (Field) obj;
+            final Field other = (Field) obj;
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
                     if (this.getField()[i][j] != other.getField()[i][j]) return false;

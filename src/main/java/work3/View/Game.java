@@ -12,7 +12,6 @@ public class Game {
     public JFrame gameWindow;
     public GameField gameField;
     private InfoBoard infoBoard;
-    private GameOver gameOver;
 
     private Timer timer;
 
@@ -49,13 +48,12 @@ public class Game {
                             timer = new Timer(500, new ActionListener() {
                                 public void actionPerformed(ActionEvent e) {
                                     try {
-                                        gameOver = new GameOver();
+                                        GameOver gameOver = new GameOver();
+                                        gameWindow.remove(gameField);
+                                        gameWindow.add(gameOver, BorderLayout.CENTER);
                                     } catch (IOException e1) {
                                         e1.printStackTrace();
                                     }
-                                    gameWindow.remove(gameField);
-                                    gameWindow.add(gameOver, BorderLayout.CENTER);
-
                                     gameWindow.setVisible(true);
                                     timer.stop();
                                 }
