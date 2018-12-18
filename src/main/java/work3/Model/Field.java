@@ -10,6 +10,24 @@ public class Field {
     private int player = -1;
     private int[][] field;
 
+    public int getPlayerScore(int player) {
+        int black = 0;
+        int white = 0;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (field[i][j] == 1) {
+                    white++;
+                } else {
+                    if (field[i][j] == -1) {
+                        black++;
+                    }
+                }
+            }
+        }
+        if (player == -1) return black;
+        else return white;
+    }
+
     /**
      * Конструктор класса создает игровое поле в его начальном состоянии:
      * все клетки пустые, кроме центральных четырех.

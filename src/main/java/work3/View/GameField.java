@@ -8,8 +8,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class GameField extends JPanel {
-    private static int field_X = 140;
-    private static int chip_Size = 64;
+    private static int fieldX = 140;
+    private static int chipSize = 64;
 
     private static Image fieldImage;
     private static Image frameImage;
@@ -23,9 +23,9 @@ public class GameField extends JPanel {
         BufferedImage bufferedImage = ImageIO.read(new File("src\\main\\resources\\game_dask.png"));
         fieldImage = bufferedImage.getScaledInstance(field_Size, field_Size, 1);
         BufferedImage bufferedImage1 = ImageIO.read(new File("src\\main\\resources\\whiteChip.png"));
-        whiteChipImage = bufferedImage1.getScaledInstance(chip_Size, chip_Size, 1);
+        whiteChipImage = bufferedImage1.getScaledInstance(chipSize, chipSize, 1);
         BufferedImage bufferedImage2 = ImageIO.read(new File("src\\main\\resources\\blackChip.png"));
-        blackChipImage = bufferedImage2.getScaledInstance(chip_Size, chip_Size, 1);
+        blackChipImage = bufferedImage2.getScaledInstance(chipSize, chipSize, 1);
         BufferedImage bufferedImage3 = ImageIO.read(new File("src\\main\\resources\\frame.png"));
         frameImage = bufferedImage3.getScaledInstance(frame_Size, frame_Size, 1);
     }
@@ -36,15 +36,15 @@ public class GameField extends JPanel {
                 if (Main.getController().getField().getField()[j][i] != 0) {
                     int field_Y = 85;
                     g.drawImage(Main.getController().getField().getField()[j][i] == -1 ? blackChipImage :
-                            whiteChipImage, field_X + chip_Size * i, field_Y + chip_Size * j, null);
+                            whiteChipImage, fieldX + chipSize * i, field_Y + chipSize * j, null);
                 }
             }
         }
     }
 
     private static void paintGameField(Graphics g) {
-        g.drawImage(frameImage, field_X - 55, 26, null);
-        g.drawImage(fieldImage, field_X - 5, 80, null);
+        g.drawImage(frameImage, fieldX - 55, 26, null);
+        g.drawImage(fieldImage, fieldX - 5, 80, null);
 
     }
 

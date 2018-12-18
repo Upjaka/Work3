@@ -51,27 +51,6 @@ public class Controller {
         }
     }
 
-    /**
-     * Метод, подсчитывающий количество очков каждого игрока.
-     */
-    public int getPlayerScore(int player) {
-        int black = 0;
-        int white = 0;
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if (field.getField()[i][j] == 1) {
-                    white++;
-                } else {
-                    if (field.getField()[i][j] == -1) {
-                        black++;
-                    }
-                }
-            }
-        }
-        if (player == -1) return black;
-        else return white;
-    }
-
     public Field getField() {
         return field;
     }
@@ -83,4 +62,8 @@ public class Controller {
     public void changePlayer() {
         field.setPlayer(field.getPlayer() * -1);
     }
+
+    /**
+     * Метод, подсчитывающий количество очков каждого игрока.
+     */
 }
